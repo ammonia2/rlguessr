@@ -92,6 +92,7 @@ function setNewTeamOfDay() {
 }
 
 export default function reqHandler(req, res) {
+    console.log('API route hit:', req.method, req.url)
     if (req.method === 'GET') {
         const now = new Date().toISOString().split('T')[0]
 
