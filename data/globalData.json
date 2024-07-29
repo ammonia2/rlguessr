@@ -1,0 +1,47 @@
+{
+    "teamOfDay": {
+      "name": "Team Liquid",
+      "region": "EU",
+      "rlcsLans": "5",
+      "yearJoined": "2020",
+      "winRate": "55.95",
+      "winnings": "507,121",
+      "active": "false",
+      "page": "https://liquipedia.net/rocketleague/Team_Liquid"
+    },
+    "date": "2024-07-29",
+    "prevTeams": [
+      {
+        "name": "FURIA Esports",
+        "region": "SAM",
+        "rlcsLans": "7",
+        "yearJoined": "2021",
+        "winRate": "76.54",
+        "winnings": "1,219,700",
+        "active": "true",
+        "page": "https://liquipedia.net/rocketleague/FURIA_Esports"
+      },
+      {
+        "name": "Hogan Mode",
+        "region": "EU",
+        "rlcsLans": "0",
+        "yearJoined": "2023",
+        "winRate": "65.91",
+        "winnings": "23,000",
+        "active": "false",
+        "page": "https://liquipedia.net/rocketleague/Hogan_Mode"
+      },
+      {
+        "name": "Team Liquid",
+        "region": "EU",
+        "rlcsLans": "5",
+        "yearJoined": "2020",
+        "winRate": "55.95",
+        "winnings": "507,121",
+        "active": "false",
+        "page": "https://liquipedia.net/rocketleague/Team_Liquid"
+      }
+    ],
+    "gamesPlayed": 3,
+    "gamesWon": 2
+  }
