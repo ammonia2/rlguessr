@@ -55,6 +55,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const teamOfDayFilePath = path.join(__dirname, 'data', 'teamOfDay.json')
 let teamOfDay
+let teamOfDayTimestamp
 
 function setNewTeamOfDay() {
     const today = new Date().toISOString().split('T')[0]
