@@ -53,7 +53,7 @@ let teams = [
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-const teamOfDayFilePath = path.join(__dirname, 'data', 'teamOfDay.json')
+const teamOfDayFilePath = path.join(__dirname, 'data', 'globalData.json')
 let teamOfDay = null
 let teamOfDayTimestamp = null
 
