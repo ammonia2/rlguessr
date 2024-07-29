@@ -91,7 +91,7 @@ function setNewTeamOfDay() {
     teamOfDayTimestamp = data.date
 }
 
-export default function reqHandler(req, res) {
+module.exports = (req, res)=> {
     if (req.method === 'GET') {
         const now = new Date().toISOString().split('T')[0]
 
