@@ -10,11 +10,11 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "/dist/$1"
+      "src": "/api/(.*)", "dest": "/api/$1" 
     },
     {
-      "src": "/api/(.*)", "dest": "/dist/api/$1" 
+      "src": "/(?!api)(.*)",
+      "dest": "/"
     }
   ]
 }
