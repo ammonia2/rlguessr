@@ -88,6 +88,7 @@
     const response = await fetch('/api/teamOfDay', {
       method: 'GET'
     })
+    console.log(response)
     const data = await response.json()
     teamOFDay = data.teamOfDay
     teamOfDayName = teamOFDay.name
