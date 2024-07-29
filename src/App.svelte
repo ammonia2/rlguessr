@@ -132,7 +132,7 @@
   onMount(async ()=> {
     watchClick(orgCard, detailedStats, mainContent)
     closePopup(document, orgCard, detailedStats, mainContent)
-    updateGlobalStats('won')
+    // updateGlobalStats('won')
     // localStorage.clear()
 
     userId = localStorage.getItem('userId')
