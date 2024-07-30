@@ -1,5 +1,5 @@
 import {createPool} from '@vercel/postgres'
-const databaseUrl = process.env.POTGRES_URL
+const databaseUrl = process.env.POSTGRES_URL
 
 let teams = [
     { name: "Elevate", region: "APAC", rlcsLans: "3", yearJoined: "2021", winRate: "70.19", winnings:"94,164", active:"false", page:"https://liquipedia.net/rocketleague/Elevate" },
