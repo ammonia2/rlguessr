@@ -1,4 +1,8 @@
 import {createPool} from '@vercel/postgres'
+import dotenv from 'dotenv'
+
+dotenv.config()
+
 const databaseUrl = process.env.POSTRES_URL
 
 let teams = [
@@ -55,7 +59,7 @@ let teamOfDay = null
 async function setTeamOfDay() {
     const today = new Date().toISOString().split('T')[0]
 
-    console.log("Connecting...")
+    console.log("Connecting to: ", databaseUrl)
 
     const pool = createPool({ connectionString:databaseUrl, connectionTimeoutMillis: 5000 })
     await pool.sql`
