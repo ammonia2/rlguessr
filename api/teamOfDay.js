@@ -146,7 +146,7 @@ export default function reqHandler(req, res) {
             setNewTeamOfDay()
         }
 
-        console.log(teamOfDay)
+        console.log("TEAM OF DAY:", teamOfDay)
         res.json(teamOfDay)
     }
 }
