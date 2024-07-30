@@ -8,6 +8,6 @@ export default defineConfig({
     outDir: 'dist'
   },
   define: {
-    'process.env': process.env
+    'process.env.POSTRES_URL': JSON.stringify(process.env.POSTRES_URL)
   }
 })
