@@ -14,6 +14,8 @@
     "vite": "^5.3.4"
   },
   "dependencies": {
-    "gsap": "^3.12.5"
+    "@vercel/postgres": "^0.9.0",
+    "gsap": "^3.12.5",
+    "winston": "^3.13.1"
   }
 }

@@ -1,6 +1,5 @@
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath} from 'url'
+import {createPool} from '@vercel/postgres'
+const databaseUrl = process.env.POTGRES_URL
 
 let teams = [
     { name: "Elevate", region: "APAC", rlcsLans: "3", yearJoined: "2021", winRate: "70.19", winnings:"94,164", active:"false", page:"https://liquipedia.net/rocketleague/Elevate" },
@@ -51,46 +50,91 @@ let teams = [
     { name: "Limitless", region: "SSA", rlcsLans: "2", yearJoined: "2022", winRate: "72.5", winnings:"99,530", active:"true", page:"https://liquipedia.net/rocketleague/Limitless" },
 ]
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const teamOfDayFilePath = path.join(__dirname, 'data', 'globalData.json')
 let teamOfDay = null
-let teamOfDayTimestamp = null
 
-function setNewTeamOfDay() {
+async function setNewTeamOfDay() {
     const today = new Date().toISOString().split('T')[0]
 
-    const data = JSON.parse(fs.readFileSync(teamOfDayFilePath, 'utf8'))
+    const pool = createPool({ connectionString:databaseUrl })
+    await pool.sql`
+        CREATE TABLE IF NOT EXISTS curr(
+            id SERIAL PRIMARY KEY,
+            name TEXT,
+            region TEXT,
+            rlcsLans INT,
+            yearJoined INT,
+            winRate DECIMAL(5, 2),
+            winnings TEXT,
+            active BOOLEAN,
+            page TEXT,
+            date DATE
+        )
+    `
+    await pool.sql`
+        CREATE TABLE IF NOT EXISTS prev(
+            id SERIAL PRIMARY KEY,
+            name TEXT,
+            region TEXT,
+            rlcsLans INT,
+            yearJoined INT,
+            winRate DECIMAL(5, 2),
+            winnings TEXT,
+            active BOOLEAN,
+            page TEXT,
+            date DATE
+        )
+    `
+    let dateStored=null
+    const res = await pool.sql`SELECT * FROM curr`
+    if (res.rowCount> 0) {
+        dateStored = res.rows[0].date
+    }
 
-    if (data.date != today) {
-        data.teamOfDay = teams[Math.floor(Math.random() * teams.length)]
+    if (dateStored != today) {
+        teamOfDay = teams[Math.floor(Math.random() * teams.length)]
         let found=true
         let check
         while (found) {
             check=false
-            if (data.prevTeams && data.prevTeams.length <=30) {
-                for (let prev in data.prevTeams) {
-                    if (prev== data.teamOfDay) {
+            const prevTeams = await pool.sql`SELECT * FROM prev`
+            if ( prevTeams.rowCount>0 && prevTeams.rowCount <=30) {
+                for (let prev in prevTeams.rows) {
+                    if (prev.name== teamOfDay.name) {
                         check=true
                         break
                     }
                 }
             }
             else {
-                data.prevTeams=[]
+                await pool.sql`DELETE FROM prev`
+                await pool.sql `COMMIT`
             }
             if (check) {
-                data.teamOfDay = teams[Math.floor(Math.random() * teams.length)]
+                teamOfDay = teams[Math.floor(Math.random() * teams.length)]
             } else found=false
         }
-        data.date = today
-        data.prevTeams.push(data.teamOfDay)
-
-        fs.writeFileSync(teamOfDayFilePath, JSON.stringify(data, null, 2))
+        if (res.rowCount>0) {
+            await pool.sql`DELETE FROM curr`
+            await pool.sql `COMMIT`
+        }
+        await pool.sql`
+            INSERT INTO curr (name, region, rlcsLans, yearJoined, winRate, winnings, active, page, date)
+            VALUES (${teamOfDay.name}, 
+            ${teamOfDay.region}, 
+            ${teamOfDay.rlcsLans}, 
+            ${teamOfDay.yearJoined}, 
+            ${teamOfDay.winRate}, 
+            ${teamOfDay.winnings}, 
+            ${teamOfDay.active}, 
+            ${teamOfDay.page}, 
+            ${today})
+        `
+        await pool.sql `COMMIT`
     }
-    teamOfDay = data.teamOfDay
-    teamOfDay["timeStamp"] = data.date
-    teamOfDayTimestamp = data.date
+    else {
+        const currRes = await pool.sql`SELECT * FROM curr`
+        teamOfDay = currRes.rows[0]
+    }
 }
 
 export default function reqHandler(req, res) {
@@ -103,6 +147,6 @@ export default function reqHandler(req, res) {
         }
 
         console.log(teamOfDay)
-        res.json(JSON.stringify(teamOfDay))
+        res.json(teamOfDay)
     }
 }
