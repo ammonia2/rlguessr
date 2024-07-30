@@ -1,7 +1,9 @@
 import {sql} from '@vercel/postgres'
+import pg from 'pg'
 import dotenv from 'dotenv'
 
 dotenv.config()
+const { Pool } = pg;
 
 const databaseUrl = process.env.POSTRES_URL
 
@@ -59,10 +61,10 @@ let teamOfDay = null
 async function setTeamOfDay() {
     const today = new Date().toISOString().split('T')[0]
 
-    console.log("Connecting to: ", databaseUrl)
+    console.log("Connecting ..")
 
-    // const pool = createPool({ connectionString:databaseUrl, connectionTimeoutMillis: 5000 })
-    await sql`
+    const pool = new Pool({ connectionString:databaseUrl, connectionTimeoutMillis: 5000 })
+    await pool.query(`
         CREATE TABLE IF NOT EXISTS curr(
             id SERIAL PRIMARY KEY,
             name TEXT,
@@ -75,8 +77,8 @@ async function setTeamOfDay() {
             page TEXT,
             date DATE
         )
-    `
-    await sql`
+    `)
+    await pool.query(`
         CREATE TABLE IF NOT EXISTS prev(
             id SERIAL PRIMARY KEY,
             name TEXT,
@@ -89,9 +91,9 @@ async function setTeamOfDay() {
             page TEXT,
             date DATE
         )
-    `
+    `)
     let dateStored=null
-    const res = await sql`SELECT * FROM curr`
+    const res = await pool.query(`SELECT * FROM curr`)
     if (res.rowCount> 0) {
         dateStored = res.rows[0].date
     }
@@ -103,7 +105,7 @@ async function setTeamOfDay() {
         let check
         while (found) {
             check=false
-            const prevTeams = await sql`SELECT * FROM prev`
+            const prevTeams = await pool.query(`SELECT * FROM prev`)
             if ( prevTeams.rowCount>0 && prevTeams.rowCount <=30) {
                 for (let prev in prevTeams.rows) {
                     if (prev.name== teamOfDay.name) {
@@ -113,18 +115,18 @@ async function setTeamOfDay() {
                 }
             }
             else {
-                await sql`DELETE FROM prev`
-                await sql `COMMIT`
+                await pool.query(`DELETE FROM prev`)
+                await pool.query( `COMMIT`)
             }
             if (check) {
                 teamOfDay = teams[Math.floor(Math.random() * teams.length)]
             } else found=false
         }
         if (res.rowCount>0) {
-            await sql`DELETE FROM curr`
-            await sql `COMMIT`
+            await pool.query(`DELETE FROM curr`)
+            await pool.query( `COMMIT`)
         }
-        await sql`
+        await pool.query(`
             INSERT INTO curr (name, region, rlcsLans, yearJoined, winRate, winnings, active, page, date)
             VALUES (${teamOfDay.name}, 
             ${teamOfDay.region}, 
@@ -135,11 +137,11 @@ async function setTeamOfDay() {
             ${teamOfDay.active}, 
             ${teamOfDay.page}, 
             ${today})
-        `
-        await sql `COMMIT`
+        `)
+        await pool.query( `COMMIT`)
     }
     else {
-        const currRes = await sql`SELECT * FROM curr`
+        const currRes = await pool.query(`SELECT * FROM curr`)
         teamOfDay = currRes.rows[0]
     }
 }
