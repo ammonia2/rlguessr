@@ -55,7 +55,7 @@ let teamOfDay = null
 async function setTeamOfDay() {
     const today = new Date().toISOString().split('T')[0]
 
-    const pool = createPool({ connectionString:databaseUrl })
+    const pool = createPool({ connectionString:databaseUrl, connectionTimeoutMillis: 5000 })
     await pool.sql`
         CREATE TABLE IF NOT EXISTS curr(
             id SERIAL PRIMARY KEY,
@@ -137,7 +137,7 @@ async function setTeamOfDay() {
     }
 }
 
-export  default async function reqHandler(req, res) {
+export default async function reqHandler(req, res) {
     console.log('API route hit:', req.method, req.url)
     if (req.method === 'GET') {
         const now = new Date().toISOString().split('T')[0]
