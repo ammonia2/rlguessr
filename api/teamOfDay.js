@@ -1,4 +1,4 @@
-import {createPool} from '@vercel/postgres'
+import {sql} from '@vercel/postgres'
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -61,8 +61,8 @@ async function setTeamOfDay() {
 
     console.log("Connecting to: ", databaseUrl)
 
-    const pool = createPool({ connectionString:databaseUrl, connectionTimeoutMillis: 5000 })
-    await pool.sql`
+    // const pool = createPool({ connectionString:databaseUrl, connectionTimeoutMillis: 5000 })
+    await sql`
         CREATE TABLE IF NOT EXISTS curr(
             id SERIAL PRIMARY KEY,
             name TEXT,
@@ -76,7 +76,7 @@ async function setTeamOfDay() {
             date DATE
         )
     `
-    await pool.sql`
+    await sql`
         CREATE TABLE IF NOT EXISTS prev(
             id SERIAL PRIMARY KEY,
             name TEXT,
@@ -91,7 +91,7 @@ async function setTeamOfDay() {
         )
     `
     let dateStored=null
-    const res = await pool.sql`SELECT * FROM curr`
+    const res = await sql`SELECT * FROM curr`
     if (res.rowCount> 0) {
         dateStored = res.rows[0].date
     }
@@ -103,7 +103,7 @@ async function setTeamOfDay() {
         let check
         while (found) {
             check=false
-            const prevTeams = await pool.sql`SELECT * FROM prev`
+            const prevTeams = await sql`SELECT * FROM prev`
             if ( prevTeams.rowCount>0 && prevTeams.rowCount <=30) {
                 for (let prev in prevTeams.rows) {
                     if (prev.name== teamOfDay.name) {
@@ -113,18 +113,18 @@ async function setTeamOfDay() {
                 }
             }
             else {
-                await pool.sql`DELETE FROM prev`
-                await pool.sql `COMMIT`
+                await sql`DELETE FROM prev`
+                await sql `COMMIT`
             }
             if (check) {
                 teamOfDay = teams[Math.floor(Math.random() * teams.length)]
             } else found=false
         }
         if (res.rowCount>0) {
-            await pool.sql`DELETE FROM curr`
-            await pool.sql `COMMIT`
+            await sql`DELETE FROM curr`
+            await sql `COMMIT`
         }
-        await pool.sql`
+        await sql`
             INSERT INTO curr (name, region, rlcsLans, yearJoined, winRate, winnings, active, page, date)
             VALUES (${teamOfDay.name}, 
             ${teamOfDay.region}, 
@@ -136,10 +136,10 @@ async function setTeamOfDay() {
             ${teamOfDay.page}, 
             ${today})
         `
-        await pool.sql `COMMIT`
+        await sql `COMMIT`
     }
     else {
-        const currRes = await pool.sql`SELECT * FROM curr`
+        const currRes = await sql`SELECT * FROM curr`
         teamOfDay = currRes.rows[0]
     }
 }
