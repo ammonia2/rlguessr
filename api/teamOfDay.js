@@ -52,7 +52,7 @@ let teams = [
 
 let teamOfDay = null
 
-async function setNewTeamOfDay() {
+async function setTeamOfDay() {
     const today = new Date().toISOString().split('T')[0]
 
     const pool = createPool({ connectionString:databaseUrl })
@@ -90,7 +90,7 @@ async function setNewTeamOfDay() {
         dateStored = res.rows[0].date
     }
 
-    if (dateStored != today) {
+    if ( dateStored != today) {
         teamOfDay = teams[Math.floor(Math.random() * teams.length)]
         let found=true
         let check
@@ -137,14 +137,12 @@ async function setNewTeamOfDay() {
     }
 }
 
-export default function reqHandler(req, res) {
+export  default async function reqHandler(req, res) {
     console.log('API route hit:', req.method, req.url)
     if (req.method === 'GET') {
         const now = new Date().toISOString().split('T')[0]
 
-        if (!teamOfDay || now!=teamOfDayTimestamp) {
-            setNewTeamOfDay()
-        }
+        setTeamOfDay()
 
         console.log("TEAM OF DAY:", teamOfDay)
         res.json(teamOfDay)
