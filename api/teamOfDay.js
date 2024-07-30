@@ -55,6 +55,8 @@ let teamOfDay = null
 async function setTeamOfDay() {
     const today = new Date().toISOString().split('T')[0]
 
+    console.log("Connecting...")
+
     const pool = createPool({ connectionString:databaseUrl, connectionTimeoutMillis: 5000 })
     await pool.sql`
         CREATE TABLE IF NOT EXISTS curr(
@@ -92,6 +94,7 @@ async function setTeamOfDay() {
 
     if ( dateStored != today) {
         teamOfDay = teams[Math.floor(Math.random() * teams.length)]
+        console.log(teamOfDay)
         let found=true
         let check
         while (found) {
