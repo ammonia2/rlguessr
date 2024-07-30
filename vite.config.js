@@ -6,5 +6,8 @@ export default defineConfig({
   plugins: [svelte()],
   build: {
     outDir: 'dist'
+  },
+  define: {
+    'process.env': process.env
   }
 })
