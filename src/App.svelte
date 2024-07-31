@@ -85,13 +85,28 @@
   }
 
   async function fetchTeamOfDay() {
-    const response = await fetch('/api/teamOfDay', {
-      method: 'GET'
-    })
-    console.log(response)
-    const data = await response.json()
-    teamOFDay = data.teamOfDay
-    teamOfDayName = teamOFDay.name
+    try {
+      const response = await fetch('/api/teamOfDay', {
+        method: 'GET'
+      });
+      console.log(response);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Received data:", data);
+
+      // The API is returning the team directly, not wrapped in a teamOfDay property
+      teamOFDay = data;
+      teamOfDayName = teamOFDay.name;
+
+      console.log("Team of day:", teamOFDay);
+      console.log("Team of day name:", teamOfDayName);
+    } catch (error) {
+      console.error("Error fetching team of day:", error);
+    }
   }
 
   async function fetchGlobalStats() {
@@ -237,6 +252,10 @@
 
   $: if (hasSolvedToday) {
     enableCard(orgCard)
+  }
+
+  $: if (teamOFDay) {
+    teamOfDayName = teamOFDay.name
   }
 
 </script>
