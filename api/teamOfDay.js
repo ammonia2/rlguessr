@@ -5,7 +5,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 const { Pool } = pg;
 
-const databaseUrl = process.env.TEST_URL
+const databaseUrl = process.env.POSTRES_URL
 
 let teams = [
     { name: "Elevate", region: "APAC", rlcsLans: "3", yearJoined: "2021", winRate: "70.19", winnings:"94,164", active:"false", page:"https://liquipedia.net/rocketleague/Elevate" },
@@ -92,68 +92,46 @@ async function setTeamOfDay() {
             date DATE
         )
     `)
-    let dateStored=null
-    const res = await pool.query(`SELECT * FROM curr`)
-    if (res.rowCount> 0) {
-        dateStored = res.rows[0].date
-    }
-
-    if ( dateStored != today) {
+    let teamOfDay = null
+    const res = await pool.query(`SELECT * FROM curr WHERE date = $1`, [today])
+    
+    if (res.rowCount === 0) {
         teamOfDay = teams[Math.floor(Math.random() * teams.length)]
-        console.log(teamOfDay)
-        let found=true
-        let check
-        while (found) {
-            check=false
-            const prevTeams = await pool.query(`SELECT * FROM prev`)
-            if ( prevTeams.rowCount>0 && prevTeams.rowCount <=30) {
-                for (let prev in prevTeams.rows) {
-                    if (prev.name== teamOfDay.name) {
-                        check=true
-                        break
-                    }
-                }
-            }
-            else {
-                await pool.query(`DELETE FROM prev`)
-                await pool.query( `COMMIT`)
-            }
-            if (check) {
-                teamOfDay = teams[Math.floor(Math.random() * teams.length)]
-            } else found=false
+        console.log("New team of day:", teamOfDay)
+
+        const prevTeams = await pool.query(`SELECT name FROM prev WHERE date > $1`, [new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)])
+        while (prevTeams.rows.some(row => row.name === teamOfDay.name)) {
+            teamOfDay = teams[Math.floor(Math.random() * teams.length)]
         }
-        if (res.rowCount>0) {
-            await pool.query(`DELETE FROM curr`)
-            await pool.query( `COMMIT`)
-        }
+
+        await pool.query(`DELETE FROM curr`)
         await pool.query(`
             INSERT INTO curr (name, region, rlcsLans, yearJoined, winRate, winnings, active, page, date)
-            VALUES (${teamOfDay.name}, 
-            ${teamOfDay.region}, 
-            ${teamOfDay.rlcsLans}, 
-            ${teamOfDay.yearJoined}, 
-            ${teamOfDay.winRate}, 
-            ${teamOfDay.winnings}, 
-            ${teamOfDay.active}, 
-            ${teamOfDay.page}, 
-            ${today})
-        `)
-        await pool.query( `COMMIT`)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        `, [teamOfDay.name, teamOfDay.region, teamOfDay.rlcsLans, teamOfDay.yearJoined, teamOfDay.winRate, teamOfDay.winnings, teamOfDay.active, teamOfDay.page, today])
+
+        await pool.query(`
+            INSERT INTO prev (name, region, rlcsLans, yearJoined, winRate, winnings, active, page, date)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        `, [teamOfDay.name, teamOfDay.region, teamOfDay.rlcsLans, teamOfDay.yearJoined, teamOfDay.winRate, teamOfDay.winnings, teamOfDay.active, teamOfDay.page, today])
+    } else {
+        teamOfDay = res.rows[0]
     }
-    else {
-        const currRes = await pool.query(`SELECT * FROM curr`)
-        teamOfDay = currRes.rows[0]
-    }
+    return teamOfDay
 }
 
 export default async function reqHandler(req, res) {
     console.log('API route hit:', req.method, req.url)
     if (req.method === 'GET') {
-        const now = new Date().toISOString().split('T')[0]
-
-        setTeamOfDay()
-
-        console.log("TEAM OF DAY:", teamOfDay)
-        res.json(teamOfDay)
+        try {
+            const teamOfDay = await setTeamOfDay()
+            console.log("TEAM OF DAY:", teamOfDay)
+            res.json(teamOfDay)
+        } catch (error) {
+            console.error("Error in request handler:", error)
+            res.status(500).json({ error: "Internal server error" })
+        }
+    } else {
+        res.status(405).json({ error: "Method not allowed" })
     }
 }
