@@ -383,6 +383,7 @@
         <!-- info links -->
         <div class="info">
           <a href="."  class="guide-link" on:click={(e)=> { e.preventDefault()
+          guessrBtn.setAttribute('display', 'flex')
           gsap.to(guessrBtn, {
             left: '0%',
             duration: 1,
@@ -390,6 +391,7 @@
           })
           }}
           on:keypress={(e)=> { e.preventDefault()
+            guessrBtn.setAttribute('display', 'flex')
             gsap.to(guessrBtn, {
               left: '0%',
               duration: 1,
@@ -399,6 +401,7 @@
           <div class="separator"></div>
           <a href="." on:click={(e)=> { e.preventDefault()
             fetchGlobalStats()
+            statsBtn.setAttribute('display', 'flex')
             gsap.to(statsBtn, {
               left: '0%',
               duration: 1,
@@ -407,6 +410,7 @@
           }}
           on:keypress={(e)=> { e.preventDefault()
             fetchGlobalStats()
+            statsBtn.setAttribute('display', 'flex')
             gsap.to(statsBtn, {
               left: '0%',
               duration: 1,
@@ -453,14 +457,20 @@
       gsap.to(statsBtn, {
         left: '100%',
         duration: 1,
-        ease: 'power1.inOut'
+        ease: 'power1.inOut',
+        onComplete: ()=> {
+          statsBtn.setAttribute('display', 'none')
+        }
       })
     }}
     on:keypress={(e)=>{ e.preventDefault()
       gsap.to(statsBtn, {
         left: '100%',
         duration: 1,
-        ease: 'power1.inOut'
+        ease: 'power1.inOut',
+        onComplete: ()=> {
+          statsBtn.setAttribute('display', 'none')
+        }
       })
     }}
     >&larr;</a>
@@ -507,14 +517,20 @@
       gsap.to(guessrBtn, {
         left: '100%',
         duration: 1,
-        ease: 'power1.inOut'
+        ease: 'power1.inOut',
+        onComplete: ()=> {
+          guessrBtn.setAttribute('display', 'none')
+        }
       })
     }}
     on:keypress={(e)=>{ e.preventDefault()
       gsap.to(guessrBtn, {
         left: '100%',
         duration: 1,
-        ease: 'power1.inOut'
+        ease: 'power1.inOut',
+        onComplete: ()=> {
+          guessrBtn.setAttribute('display', 'none')
+        }
       })
     }}
     >&larr;</a>
