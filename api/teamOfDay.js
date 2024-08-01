@@ -1,8 +1,5 @@
-import {sql} from '@vercel/postgres'
 import pg from 'pg'
-import dotenv from 'dotenv'
 
-dotenv.config()
 const { Pool } = pg;
 
 const databaseUrl = process.env.POSTRES_URL
@@ -56,12 +53,10 @@ let teams = [
     { name: "Limitless", region: "SSA", rlcsLans: "2", yearJoined: "2022", winRate: "72.5", winnings:"99,530", active:"true", page:"https://liquipedia.net/rocketleague/Limitless" },
 ]
 
-let teamOfDay = null
-
 async function setTeamOfDay() {
     const today = new Date().toISOString().split('T')[0]
 
-    console.log("Connecting ..")
+    // console.log("Connecting ..")
 
     const pool = new Pool({ connectionString:databaseUrl, connectionTimeoutMillis: 5000 })
     await pool.query(`
@@ -97,7 +92,7 @@ async function setTeamOfDay() {
     
     if (res.rowCount === 0) {
         teamOfDay = teams[Math.floor(Math.random() * teams.length)]
-        console.log("New team of day:", teamOfDay)
+        // console.log("New team of day:", teamOfDay)
 
         const prevTeams = await pool.query(`SELECT name FROM prev WHERE date > $1`, [new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)])
         while (prevTeams.rows.some(row => row.name === teamOfDay.name)) {
@@ -121,11 +116,11 @@ async function setTeamOfDay() {
 }
 
 export default async function reqHandler(req, res) {
-    console.log('API route hit:', req.method, req.url)
+    // console.log('API route hit:', req.method, req.url)
     if (req.method === 'GET') {
         try {
             const teamOfDay = await setTeamOfDay()
-            console.log("TEAM OF DAY:", teamOfDay)
+            // console.log("TEAM OF DAY:", teamOfDay)
             res.json(teamOfDay)
         } catch (error) {
             console.error("Error in request handler:", error)
