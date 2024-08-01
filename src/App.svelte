@@ -478,7 +478,7 @@
         </div>
         <div class="box">
           <p>Win %</p>
-          <p>{(gamesW/gamesPl)*100}</p>
+          <p>{gamesPl==0? 0:(gamesW/gamesPl)*100}</p>
         </div>
       </div>
     </div>

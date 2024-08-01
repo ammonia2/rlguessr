@@ -13,7 +13,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-html {
+html, main {
   overflow-x: hidden;
 }
 
@@ -126,7 +126,7 @@ button:focus-visible {
       list-style: none;
       
       button {
-        border-radius: none;
+        border-radius: 0;
       }
     }
   }
@@ -346,7 +346,8 @@ button:focus-visible {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: fit-content;
+  min-height: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -409,7 +410,8 @@ button:focus-visible {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: fit-content;
+  min-height: 100%;
   position: absolute;
   gap: 20px;
   top: 0;
