@@ -384,14 +384,14 @@
         <div class="info">
           <a href="."  class="guide-link" on:click={(e)=> { e.preventDefault()
           gsap.to(guessrBtn, {
-            x: '0',
+            left: '0%',
             duration: 1,
             ease: 'power1.inOut'
           })
           }}
           on:keypress={(e)=> { e.preventDefault()
             gsap.to(guessrBtn, {
-              x: '0',
+              left: '0%',
               duration: 1,
               ease: 'power1.inOut'
             }) }}
@@ -400,7 +400,7 @@
           <a href="." on:click={(e)=> { e.preventDefault()
             fetchGlobalStats()
             gsap.to(statsBtn, {
-              x: '0',
+              left: '0%',
               duration: 1,
               ease: 'power1.inOut'
           })
@@ -408,7 +408,7 @@
           on:keypress={(e)=> { e.preventDefault()
             fetchGlobalStats()
             gsap.to(statsBtn, {
-              x: '0',
+              left: '0%',
               duration: 1,
               ease: 'power1.inOut'
             }) }}
@@ -451,14 +451,14 @@
     <a href='.' class="arrow" on:click ={(e)=> {
       e.preventDefault()
       gsap.to(statsBtn, {
-        x: '100vw',
+        left: '100%',
         duration: 1,
         ease: 'power1.inOut'
       })
     }}
     on:keypress={(e)=>{ e.preventDefault()
       gsap.to(statsBtn, {
-        x: '100vw',
+        left: '100%',
         duration: 1,
         ease: 'power1.inOut'
       })
@@ -505,14 +505,14 @@
     <a href='.' class="arrow" on:click ={(e)=> {
       e.preventDefault()
       gsap.to(guessrBtn, {
-        x: '100vw',
+        left: '100%',
         duration: 1,
         ease: 'power1.inOut'
       })
     }}
     on:keypress={(e)=>{ e.preventDefault()
       gsap.to(guessrBtn, {
-        x: '100vw',
+        left: '100%',
         duration: 1,
         ease: 'power1.inOut'
       })

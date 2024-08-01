@@ -350,8 +350,8 @@ button:focus-visible {
   min-height: 100%;
   position: absolute;
   top: 0;
-  left: 0;
-  transform: translateX(100vw);
+  left: 100%;
+  /* transform: translateX(100vw); */
   margin: 0 auto;
   background: #242424;
   width: 100%;
@@ -415,8 +415,8 @@ button:focus-visible {
   position: absolute;
   gap: 20px;
   top: 0;
-  left: 0;
-  transform: translateX(100vw);
+  left: 100%;
+  /* transform: translateX(100vw); */
   margin: 0 auto;
   background: #242424;
   width: 100%;
