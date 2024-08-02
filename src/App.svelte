@@ -306,13 +306,13 @@
                 >{guess.name}</td>
                 <td
                   class={
-                    guess.yearJoined == teamOFDay.yearJoined ? 'green' :
-                    guess.yearJoined < teamOFDay.yearJoined ? 'less' : 
+                    parseInt(guess.yearJoined) == parseInt(teamOFDay.yearJoined) ? 'green' :
+                    parseInt(guess.yearJoined) < parseInt(teamOFDay.yearJoined) ? 'less' : 
                     'greater'
                   }
                   title={
-                    guess.yearJoined == teamOFDay.yearJoined ? 'Correct Year' : 
-                    guess.yearJoined < teamOFDay.yearJoined ? 'Less than the correct year' : 
+                    parseInt(guess.yearJoined) == parseInt(teamOFDay.yearJoined) ? 'Correct Year' : 
+                    parseInt(guess.yearJoined) < parseInt(teamOFDay.yearJoined) ? 'Less than the correct year' : 
                     'Greater than the correct year'
                   }
                 >{guess.yearJoined}
@@ -323,13 +323,13 @@
                 </td>
                 <td
                   class={
-                    roundToNearestWhole(+guess.winRate) == roundToNearestWhole(+teamOFDay.winRate) ? 'green' :
-                    roundToNearestWhole(+guess.winRate) < roundToNearestWhole(+teamOFDay.winRate) ? 'less' : 
+                    parseInt(guess.winRate) == parseInt(teamOFDay.winRate) ? 'green' :
+                    parseInt(guess.winRate) < parseInt(teamOFDay.winRate) ? 'less' : 
                     'greater'
                   }
                   title={
-                    roundToNearestWhole(+guess.winRate) == roundToNearestWhole(+teamOFDay.winRate) ? 'Correct Win Rate' : 
-                    roundToNearestWhole(+guess.winRate) < roundToNearestWhole(+teamOFDay.winRate) ? 'Less than the correct Win Rate' : 
+                    parseInt(guess.winRate) == parseInt(teamOFDay.winRate) ? 'Correct Win Rate' : 
+                    parseInt(guess.winRate) < parseInt(teamOFDay.winRate) ? 'Less than the correct Win Rate' : 
                     'Greater than the correct Win Rate'
                   }
                 >
@@ -337,13 +337,13 @@
                 </td>
                 <td
                   class={
-                    guess.rlcsLans == teamOFDay.rlcsLans ? 'green' :
-                    guess.rlcsLans < teamOFDay.rlcsLans ? 'less' : 
+                    parseInt(guess.rlcsLans) == parseInt(teamOFDay.rlcsLans) ? 'green' :
+                    parseInt(guess.rlcsLans) < parseInt(teamOFDay.rlcsLans) ? 'less' : 
                     'greater'
                   }
                   title={
-                    guess.rlcsLans == teamOFDay.rlcsLans ? 'Correct RLCS LANS' : 
-                    guess.rlcsLans < teamOFDay.rlcsLans ? 'Less than the correct RLCS LANS attended' : 
+                    parseInt(guess.rlcsLans) == parseInt(teamOFDay.rlcsLans) ? 'Correct RLCS LANS' : 
+                    parseInt(guess.rlcsLans) < parseInt(teamOFDay.rlcsLans) ? 'Less than the correct RLCS LANS attended' : 
                     'Greater than the correct RLCS LANS attended'
                   }
                 >{guess.rlcsLans}</td>
@@ -360,7 +360,7 @@
                   }
                 >{guess.winnings}
                 </td>
-                <td class:green={guess.active === teamOFDay.active}
+                <td class:green={(guess.active && teamOFDay.active) || (!guess.active && !teamOFDay.active)}
                 >{guess.active==="true"? "yes":"no" }</td>
               </tr>
             {/each}
