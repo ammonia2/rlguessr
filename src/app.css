@@ -81,11 +81,11 @@ button:focus-visible {
   position: relative;
   text-align: left;
   border-radius: 2%;
-  place-items: center;
   line-height: 3;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   margin: 0 auto;
   width: 100%;
   max-width: 600px;
@@ -112,8 +112,8 @@ button:focus-visible {
   }
 
   .search-thingies ul.options {
-    margin: 0;
     padding: 0;
+    margin: 0 auto;
     border: 1px solid #ccc;
     max-height: 200px;
     overflow-y: auto;
@@ -489,7 +489,14 @@ button:focus-visible {
       color: white;
     }
   }
+}
 
+@media (max-width: 700px) {
+  .stats-card {
+    .stat-boxes {
+      flex-direction: column;
+    }
+  }
 }
 
 @media (min-width: 1050px) {
