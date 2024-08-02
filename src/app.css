@@ -206,7 +206,7 @@ button:focus-visible {
 @media (max-width: 640px) {
   .search {
     th, td {
-      font-size: 0.7rem;
+      font-size: 0.6rem;
     }
   }
 }
@@ -494,7 +494,7 @@ button:focus-visible {
 @media (max-width: 700px) {
   .stats-card {
     .stat-boxes {
-      flex-direction: column;
+      flex-direction: row;
     }
   }
 }
