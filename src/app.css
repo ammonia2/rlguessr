@@ -81,6 +81,7 @@ button:focus-visible {
   position: relative;
   text-align: left;
   border-radius: 2%;
+  place-items: center;
   line-height: 3;
   display: flex;
   flex-direction: row;
