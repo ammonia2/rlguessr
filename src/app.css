@@ -15,7 +15,6 @@
 
 body {
   overflow-x: hidden;
-  max-width: 100%;
   margin: 0;
   padding: 0;
   min-height: 100vh;
@@ -494,7 +493,10 @@ button:focus-visible {
 @media (max-width: 700px) {
   .stats-card {
     .stat-boxes {
-      flex-direction: row;
+      .box {
+        width: 100px;
+        height: 80px;
+      }
     }
   }
 }
