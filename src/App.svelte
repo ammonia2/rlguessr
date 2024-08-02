@@ -89,7 +89,7 @@
       const response = await fetch('/api/teamOfDay', {
         method: 'GET'
       })
-      console.log(response)
+      // console.log(response)
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
@@ -155,8 +155,9 @@
     }
 
     await fetchTeamOfDay()
+    console.log(teamOFDay.active)
     teamLink = teamOFDay.page
-    console.log(teamOFDay)
+    // console.log(teamOFDay)
 
     gamesPl = localStorage.getItem(`${userId}_gamesPlayed`) ? parseInt(localStorage.getItem(`${userId}_gamesPlayed`)): 0
     gamesW = localStorage.getItem(`${userId}_gamesWon`) ? parseInt(localStorage.getItem(`${userId}_gamesWon`)): 0
@@ -360,7 +361,7 @@
                   }
                 >{guess.winnings}
                 </td>
-                <td class:green={(guess.active==="true" && teamOFDay.active==="true") || (guess.active==="false" && teamOFDay.active==="false")}
+                <td class:green={guess.active===teamOFDay.active}
                 >{guess.active==="true"? "yes":"no" }</td>
               </tr>
             {/each}
