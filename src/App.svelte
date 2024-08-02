@@ -100,7 +100,7 @@
       teamOFDay = data
       teamOfDayName = teamOFDay.name
 
-      console.log("Team of day name:", teamOfDayName)
+      // console.log("Team of day name:", teamOfDayName)
     } catch (error) {
       console.error("Error fetching team of day:", error)
     }
@@ -306,13 +306,13 @@
                 >{guess.name}</td>
                 <td
                   class={
-                    parseInt(guess.yearJoined) == parseInt(teamOFDay.yearJoined) ? 'green' :
-                    parseInt(guess.yearJoined) < parseInt(teamOFDay.yearJoined) ? 'less' : 
+                    parseInt(guess.yearJoined) == parseInt(teamOFDay.yearjoined) ? 'green' :
+                    parseInt(guess.yearJoined) < parseInt(teamOFDay.yearjoined) ? 'less' : 
                     'greater'
                   }
                   title={
-                    parseInt(guess.yearJoined) == parseInt(teamOFDay.yearJoined) ? 'Correct Year' : 
-                    parseInt(guess.yearJoined) < parseInt(teamOFDay.yearJoined) ? 'Less than the correct year' : 
+                    parseInt(guess.yearJoined) == parseInt(teamOFDay.yearjoined) ? 'Correct Year' : 
+                    parseInt(guess.yearJoined) < parseInt(teamOFDay.yearjoined) ? 'Less than the correct year' : 
                     'Greater than the correct year'
                   }
                 >{guess.yearJoined}
@@ -323,13 +323,13 @@
                 </td>
                 <td
                   class={
-                    parseInt(guess.winRate) == parseInt(teamOFDay.winRate) ? 'green' :
-                    parseInt(guess.winRate) < parseInt(teamOFDay.winRate) ? 'less' : 
+                    parseInt(guess.winRate) == parseInt(teamOFDay.winrate) ? 'green' :
+                    parseInt(guess.winRate) < parseInt(teamOFDay.winrate) ? 'less' : 
                     'greater'
                   }
                   title={
-                    parseInt(guess.winRate) == parseInt(teamOFDay.winRate) ? 'Correct Win Rate' : 
-                    parseInt(guess.winRate) < parseInt(teamOFDay.winRate) ? 'Less than the correct Win Rate' : 
+                    parseInt(guess.winRate) == parseInt(teamOFDay.winrate) ? 'Correct Win Rate' : 
+                    parseInt(guess.winRate) < parseInt(teamOFDay.winrate) ? 'Less than the correct Win Rate' : 
                     'Greater than the correct Win Rate'
                   }
                 >
@@ -337,13 +337,13 @@
                 </td>
                 <td
                   class={
-                    parseInt(guess.rlcsLans) == parseInt(teamOFDay.rlcsLans) ? 'green' :
-                    parseInt(guess.rlcsLans) < parseInt(teamOFDay.rlcsLans) ? 'less' : 
+                    parseInt(guess.rlcsLans) == parseInt(teamOFDay.rlcslans) ? 'green' :
+                    parseInt(guess.rlcsLans) < parseInt(teamOFDay.rlcslans) ? 'less' : 
                     'greater'
                   }
                   title={
-                    parseInt(guess.rlcsLans) == parseInt(teamOFDay.rlcsLans) ? 'Correct RLCS LANS' : 
-                    parseInt(guess.rlcsLans) < parseInt(teamOFDay.rlcsLans) ? 'Less than the correct RLCS LANS attended' : 
+                    parseInt(guess.rlcsLans) == parseInt(teamOFDay.rlcslans) ? 'Correct RLCS LANS' : 
+                    parseInt(guess.rlcsLans) < parseInt(teamOFDay.rlcslans) ? 'Less than the correct RLCS LANS attended' : 
                     'Greater than the correct RLCS LANS attended'
                   }
                 >{guess.rlcsLans}</td>
@@ -360,7 +360,7 @@
                   }
                 >{guess.winnings}
                 </td>
-                <td class:green={(guess.active && teamOFDay.active) || (!guess.active && !teamOFDay.active)}
+                <td class:green={(guess.active==="true" && teamOFDay.active==="true") || (guess.active==="false" && teamOFDay.active==="false")}
                 >{guess.active==="true"? "yes":"no" }</td>
               </tr>
             {/each}
