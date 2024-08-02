@@ -361,7 +361,7 @@
                   }
                 >{guess.winnings}
                 </td>
-                <td class:green={guess.active===teamOFDay.active}
+                <td class:green={ (guess.active==="true" && teamOFDay.active==true) || (guess.active==="false" && teamOFDay.active==false) }
                 >{guess.active==="true"? "yes":"no" }</td>
               </tr>
             {/each}
