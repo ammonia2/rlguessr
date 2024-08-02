@@ -155,7 +155,6 @@
     }
 
     await fetchTeamOfDay()
-    console.log(teamOFDay.active)
     teamLink = teamOFDay.page
     // console.log(teamOFDay)
 
