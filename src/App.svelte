@@ -383,7 +383,7 @@
         <!-- info links -->
         <div class="info">
           <a href="."  class="guide-link" on:click={(e)=> { e.preventDefault()
-          guessrBtn.setAttribute('display', 'flex')
+          guessrBtn.style.display= 'flex'
           gsap.to(guessrBtn, {
             left: '0%',
             duration: 1,
@@ -391,7 +391,7 @@
           })
           }}
           on:keypress={(e)=> { e.preventDefault()
-            guessrBtn.setAttribute('display', 'flex')
+          guessrBtn.style.display= 'flex'
             gsap.to(guessrBtn, {
               left: '0%',
               duration: 1,
@@ -401,7 +401,7 @@
           <div class="separator"></div>
           <a href="." on:click={(e)=> { e.preventDefault()
             fetchGlobalStats()
-            statsBtn.setAttribute('display', 'flex')
+            statsBtn.style.display= 'flex'
             gsap.to(statsBtn, {
               left: '0%',
               duration: 1,
@@ -410,7 +410,7 @@
           }}
           on:keypress={(e)=> { e.preventDefault()
             fetchGlobalStats()
-            statsBtn.setAttribute('display', 'flex')
+            statsBtn.style.display= 'flex'
             gsap.to(statsBtn, {
               left: '0%',
               duration: 1,
@@ -459,7 +459,7 @@
         duration: 1,
         ease: 'power1.inOut',
         onComplete: ()=> {
-          statsBtn.setAttribute('display', 'none')
+          statsBtn.style.display= 'none'
         }
       })
     }}
@@ -469,7 +469,7 @@
         duration: 1,
         ease: 'power1.inOut',
         onComplete: ()=> {
-          statsBtn.setAttribute('display', 'none')
+          statsBtn.style.display= 'none'
         }
       })
     }}
@@ -519,7 +519,7 @@
         duration: 1,
         ease: 'power1.inOut',
         onComplete: ()=> {
-          guessrBtn.setAttribute('display', 'none')
+          guessrBtn.style.display= 'none'
         }
       })
     }}
@@ -529,7 +529,7 @@
         duration: 1,
         ease: 'power1.inOut',
         onComplete: ()=> {
-          guessrBtn.setAttribute('display', 'none')
+          guessrBtn.style.display= 'none'
         }
       })
     }}
